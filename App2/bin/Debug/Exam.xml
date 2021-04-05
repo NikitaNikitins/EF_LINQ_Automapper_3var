@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Exams>
+  <exam Student="ALiepa" Subject="C++" Mark="7" />
+  <exam Student="ALiepa" Subject="C#" Mark="8" />
+  <exam Student="ALiepa" Subject="Java" Mark="9" />
+  <exam Student="BOzols" Subject="C++" Mark="5" />
+  <exam Student="BOzols" Subject="C#" Mark="8" />
+  <exam Student="CBalbesenko" Subject="Java" Mark="4" />
+</Exams>

@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExamModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Examenations">
+          <Key>
+            <PropertyRef Name="ID_Student" />
+          </Key>
+          <Property Name="ID_Student" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ref_Stud" Type="int" />
+          <Property Name="Ref_Subj" Type="int" />
+          <Property Name="Mark" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="ID_Stud" />
+          </Key>
+          <Property Name="ID_Stud" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Student" Type="nvarchar" MaxLength="50" />
+          <Property Name="St_Card" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="ID_Subj" />
+          </Key>
+          <Property Name="ID_Subj" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="50" />
+          <Property Name="Teacher" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="Stud_st">
+          <End Role="Students" Type="Self.Students" Multiplicity="0..1" />
+          <End Role="Examenations" Type="Self.Examenations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="ID_Stud" />
+            </Principal>
+            <Dependent Role="Examenations">
+              <PropertyRef Name="Ref_Stud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Subj_sub">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="0..1" />
+          <End Role="Examenations" Type="Self.Examenations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="ID_Subj" />
+            </Principal>
+            <Dependent Role="Examenations">
+              <PropertyRef Name="Ref_Subj" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamModelStoreContainer">
+          <EntitySet Name="Examenations" EntityType="Self.Examenations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Stud_st" Association="Self.Stud_st">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Examenations" EntitySet="Examenations" />
+          </AssociationSet>
+          <AssociationSet Name="Subj_sub" Association="Self.Subj_sub">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Examenations" EntitySet="Examenations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Examenation">
+          <Key>
+            <PropertyRef Name="ID_Student" />
+          </Key>
+          <Property Name="ID_Student" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ref_Stud" Type="Int32" />
+          <Property Name="Ref_Subj" Type="Int32" />
+          <Property Name="Mark" Type="Byte" />
+          <NavigationProperty Name="Student" Relationship="Self.Stud_st" FromRole="Examenations" ToRole="Students" />
+          <NavigationProperty Name="Subject" Relationship="Self.Subj_sub" FromRole="Examenations" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="ID_Stud" />
+          </Key>
+          <Property Name="ID_Stud" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Student1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="St_Card" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Examenations" Relationship="Self.Stud_st" FromRole="Students" ToRole="Examenations" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="ID_Subj" />
+          </Key>
+          <Property Name="ID_Subj" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Teacher" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Examenations" Relationship="Self.Subj_sub" FromRole="Subjects" ToRole="Examenations" />
+        </EntityType>
+        <Association Name="Stud_st">
+          <End Role="Students" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="Examenations" Type="Self.Examenation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Students">
+              <PropertyRef Name="ID_Stud" />
+            </Principal>
+            <Dependent Role="Examenations">
+              <PropertyRef Name="Ref_Stud" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Subj_sub">
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="0..1" />
+          <End Role="Examenations" Type="Self.Examenation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="ID_Subj" />
+            </Principal>
+            <Dependent Role="Examenations">
+              <PropertyRef Name="Ref_Subj" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Examenations" EntityType="Self.Examenation" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <AssociationSet Name="Stud_st" Association="Self.Stud_st">
+            <End Role="Students" EntitySet="Students" />
+            <End Role="Examenations" EntitySet="Examenations" />
+          </AssociationSet>
+          <AssociationSet Name="Subj_sub" Association="Self.Subj_sub">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="Examenations" EntitySet="Examenations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamModelStoreContainer" CdmEntityContainer="ExamEntities">
+          <EntitySetMapping Name="Examenations">
+            <EntityTypeMapping TypeName="ExamModel.Examenation">
+              <MappingFragment StoreEntitySet="Examenations">
+                <ScalarProperty Name="ID_Student" ColumnName="ID_Student" />
+                <ScalarProperty Name="Ref_Stud" ColumnName="Ref_Stud" />
+                <ScalarProperty Name="Ref_Subj" ColumnName="Ref_Subj" />
+                <ScalarProperty Name="Mark" ColumnName="Mark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="ExamModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="ID_Stud" ColumnName="ID_Stud" />
+                <ScalarProperty Name="Student1" ColumnName="Student" />
+                <ScalarProperty Name="St_Card" ColumnName="St_Card" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="ExamModel.Subject">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="ID_Subj" ColumnName="ID_Subj" />
+                <ScalarProperty Name="Subject1" ColumnName="Subject" />
+                <ScalarProperty Name="Teacher" ColumnName="Teacher" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
